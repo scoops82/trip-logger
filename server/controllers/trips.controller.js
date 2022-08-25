@@ -1,4 +1,4 @@
-import Trip from "../models/trips/trip.model.js";
+import Trip from "../models/trip.model.js";
 // const { errorHandler } = require("./utils");
 // const logger = require("./../logger");
 

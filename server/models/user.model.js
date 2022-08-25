@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+const oid = Schema.Types.ObjectId;
+
 const UserSchema = new Schema({
-  name: {
+  sub: {
+    // Auth0 ID
     type: String,
     required: true,
   },
+  trips: [{ type: oid, ref: "Trip" }],
 });
 
 const User = mongoose.model("User", UserSchema);

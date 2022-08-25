@@ -1,4 +1,4 @@
-import User from "../models/users/user.model.js";
+import User from "../models/user.model.js";
 // const { errorHandler } = require("./utils");
 // const logger = require("./../logger");
 

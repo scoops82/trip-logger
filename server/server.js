@@ -1,5 +1,5 @@
 import express from "express";
-import "./db.js";
+import "./database.js";
 import middlewareSetup from "./middleware.js";
 import setupRoutes from "./routes/index.js";
 

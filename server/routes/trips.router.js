@@ -1,23 +1,23 @@
-import path from "path";
+// import path from 'path';
 import express from "express";
 
 import {
-  getTrips,
-  addTrip,
-  updateTrip,
-  removeTrip,
-  getUsersTrips,
-  // getOwnTrips,
-  // addOwnTrip,
-  // updateOwnTrip,
-  // removeOwnTrip,
-} from "../controllers/trips.controller.js";
+  getPlaces,
+  addPlace,
+  updatePlace,
+  removePlace,
+  getUsersPlaces,
+  // getOwnPlaces,
+  // addOwnPlace,
+  // updateOwnPlace,
+  // removeOwnPlace,
+} from "../controllers/places.controller.js";
 
 const router = express.Router();
 
-router.get("/:id?", getTrips).get("/user/:userid", getUsersTrips);
-// .post("/", addTrip)
-// .put("/:id", updateTrip)
-// .delete("/:id", removeTrip);
+router.get("/:id?", getPlaces).get("/user/:userid", getUsersPlaces);
+// .post("/", addPlace)
+// .put("/:id", updatePlace)
+// .delete("/:id", removePlace)
 
 export default router;
