@@ -12,13 +12,6 @@
 | DEV:        | nodemon | vite-dev-server      |
 | PROD:       | node    | _static file served_ |
 
-### Hosting
-
-| Service | Server | Database      |
-| ------- | ------ | ------------- |
-| local   | node   | mongodb       |
-| remote  | heroku | Mongodb Atlas |
-
 ## Data Shapes
 
 ### Entities
@@ -32,3 +25,15 @@
 - Profile (see your own trips)
 - Unvisited countries
 - Leaderboard - who has visited the most countries
+
+### Hosting
+
+| Service | Server | Database      |
+| ------- | ------ | ------------- |
+| local   | node   | mongodb       |
+| remote  | heroku | Mongodb Atlas |
+
+#### ENV VARS
+
+MONGODB_URI (from Atlas)
+NPM_CONFIG_PRODUCTION false
