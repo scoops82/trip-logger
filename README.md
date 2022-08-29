@@ -5,10 +5,19 @@
 - To allow a person to log their trips to different countries (MVP)
 - To allow them to see which countries they have left to visit \*
 
-          server          client
+### Run Commands
 
-  DEV: nodemon vite-dev-server
-  PROD node _static file served_
+| Environment | Server  | Client               |
+| ----------- | ------- | -------------------- |
+| DEV:        | nodemon | vite-dev-server      |
+| PROD:       | node    | _static file served_ |
+
+### Hosting
+
+| Service | Server | Database      |
+| ------- | ------ | ------------- |
+| local   | node   | mongodb       |
+| remote  | heroku | Mongodb Atlas |
 
 ## Data Shapes
 
