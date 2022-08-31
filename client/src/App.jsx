@@ -7,6 +7,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import theme from "./theme";
 
 import PageLayout from "./components/PageLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
 // import ErrorBoundary from "./components/ErrorBoundary";
 
 import Home from "./pages/Home";
@@ -14,6 +15,8 @@ import Home from "./pages/Home";
 // import UpdateCar from "./pages/UpdateCar";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import Trips from "./pages/Trips";
+import AddTrip from "./pages/AddTrips";
 
 // import { CarsProvider } from "./contexts/car.context";
 
@@ -39,7 +42,30 @@ function App() {
             <Routes>
               <Route path="/" element={<PageLayout />}>
                 <Route index element={<Home />} />
-                <Route path="profile" element={<Profile />} />
+                <Route
+                  path="profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/trips"
+                  element={
+                    <ProtectedRoute>
+                      <Trips />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/trips/add"
+                  element={
+                    <ProtectedRoute>
+                      <AddTrip />
+                    </ProtectedRoute>
+                  }
+                />
                 {/* <Route path="add" element={<AddCar />} />
               <Route path="update/:id" element={<UpdateCar />} /> */}
                 <Route path="*" element={<NotFound />} />
