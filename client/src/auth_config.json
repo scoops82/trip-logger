@@ -1,0 +1,5 @@
+{
+  "domain": "dev-wf6-awj3.eu.auth0.com",
+  "clientId": "AgRRz9GOCOMbW0gqg0JmNeyi1AnvrNl6",
+  "audience": "https://trip-logger-rt.herokuapp.com/api/v1"
+}

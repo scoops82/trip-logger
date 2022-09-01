@@ -18,61 +18,84 @@ import Profile from "./pages/Profile";
 import Trips from "./pages/Trips";
 import AddTrip from "./pages/AddTrips";
 
-// import { CarsProvider } from "./contexts/car.context";
+// Contexts
+import { AuthProvider } from "./contexts/auth.context";
+import { PlacesProvider } from "./contexts/places.context";
+import { UsersProvider } from "./contexts/users.context";
+import { TripsProvider } from "./contexts/trips.context";
 
 // Auth0 Settings
-const AUTH0_DOMAIN = import.meta.env.VITE_AUTH0_DOMAIN;
-console.log("🚀 ~ file: App.jsx ~ line 21 ~ AUTH0_DOMAIN", AUTH0_DOMAIN);
+import history from "./utils/history";
+import { getConfig } from "./config";
 
-const AUTH0_CLIENT_ID = import.meta.env.VITE_AUTH0_CLIENT_ID;
-console.log("🚀 ~ file: App.jsx ~ line 24 ~ AUTH0_CLIENT_ID", AUTH0_CLIENT_ID);
+const onRedirectCallback = (appState) => {
+  history.push(
+    appState && appState.returnTo ? appState.returnTo : window.location.pathname
+  );
+};
+
+// Please see https://auth0.github.io/auth0-react/interfaces/auth0provideroptions.html
+// for a full list of the available properties on the provider
+const config = getConfig();
+
+const providerConfig = {
+  domain: config.domain,
+  clientId: config.clientId,
+  ...(config.audience ? { audience: config.audience } : null),
+  redirectUri: window.location.origin,
+  onRedirectCallback,
+};
 
 function App() {
   return (
     <>
       <Router>
-        <Auth0Provider
-          domain={AUTH0_DOMAIN}
-          clientId={AUTH0_CLIENT_ID}
-          redirectUri={window.location.origin}
-        >
-          <CssBaseline />
-          <ThemeProvider theme={theme}>
-            {/* <CarsProvider> */}
-            <Routes>
-              <Route path="/" element={<PageLayout />}>
-                <Route index element={<Home />} />
-                <Route
-                  path="profile"
-                  element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/trips"
-                  element={
-                    <ProtectedRoute>
-                      <Trips />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/trips/add"
-                  element={
-                    <ProtectedRoute>
-                      <AddTrip />
-                    </ProtectedRoute>
-                  }
-                />
-                {/* <Route path="add" element={<AddCar />} />
+        <Auth0Provider {...providerConfig}>
+          <AuthProvider>
+            <PlacesProvider>
+              <UsersProvider>
+                <TripsProvider>
+                  <CssBaseline />
+                  <ThemeProvider theme={theme}>
+                    {/* <CarsProvider> */}
+                    <Routes>
+                      <Route path="/" element={<PageLayout />}>
+                        <Route index element={<Home />} />
+                        <Route
+                          path="profile"
+                          element={
+                            <ProtectedRoute>
+                              <Profile />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/trips"
+                          element={
+                            <ProtectedRoute>
+                              <Trips />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/trips/add"
+                          element={
+                            <ProtectedRoute>
+                              <AddTrip />
+                            </ProtectedRoute>
+                          }
+                        />
+                        {/* <Route path="add" element={<AddCar />} />
               <Route path="update/:id" element={<UpdateCar />} /> */}
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-            {/* </CarsProvider> */}
-          </ThemeProvider>
+                        <Route path="*" element={<NotFound />} />
+                      </Route>
+                    </Routes>
+                    {/* </CarsProvider> */}
+                  </ThemeProvider>
+                </TripsProvider>
+              </UsersProvider>
+            </PlacesProvider>
+          </AuthProvider>
         </Auth0Provider>
       </Router>
     </>
