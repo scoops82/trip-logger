@@ -2,22 +2,29 @@
 import express from "express";
 
 import {
-  getPlaces,
-  addPlace,
-  updatePlace,
-  removePlace,
-  getUsersPlaces,
-  // getOwnPlaces,
-  // addOwnPlace,
-  // updateOwnPlace,
-  // removeOwnPlace,
-} from "../controllers/places.controller.js";
+  // getTrips,
+  // addTrip,
+  // updateTrip,
+  // removeTrip,
+  getUsersTrips,
+  // getOwnTrips,
+  addOwnTrip,
+  // updateOwnTrip,
+  removeOwnTrip,
+} from "../controllers/trips.controller.js";
+
+import { checkJwt } from "../auth0/authz.middleware.js";
 
 const router = express.Router();
 
-router.get("/:id?", getPlaces).get("/user/:userid", getUsersPlaces);
-// .post("/", addPlace)
-// .put("/:id", updatePlace)
-// .delete("/:id", removePlace)
+router
+  // .get(
+  //   "/:id?",
+  //   getTrips
+  // )
+  .get("/", checkJwt, getUsersTrips)
+  .post("/", checkJwt, addOwnTrip)
+  // .put("/:id", checkJwt, updateTrip)
+  .delete("/:id", checkJwt, removeOwnTrip);
 
 export default router;

@@ -72,9 +72,9 @@ export const TripsProvider = (props) => {
 
     const { loading, loaded, error } = state;
 
-    if (loading || loaded || error) {
-      return;
-    }
+    // if (loading || loaded || error) {
+    //   return;
+    // }
 
     setLoading();
 
@@ -89,7 +89,7 @@ export const TripsProvider = (props) => {
       }
       const data = await response.json();
       setTrips(data);
-      // console.log('trips from context', trips);
+      console.log("trips from context", trips);
     } catch (err) {
       console.log("err", err);
       setError(err);
@@ -101,14 +101,13 @@ export const TripsProvider = (props) => {
       if (!accessToken) return;
       console.log("headers", headers);
       console.log("accessToken", accessToken);
+      const fullPlace = places.find(({ _id }) => _id === formData.place);
       setLoading();
       const { trips } = state;
       try {
         const response = await fetch("/api/v1/trips", {
           method: "POST",
-          headers: accessToken
-            ? { ...headers, Authorization: `Bearer ${accessToken}` }
-            : headers,
+          headers: { ...headers, Authorization: `Bearer ${accessToken}` },
           body: JSON.stringify(formData),
         });
         if (response.status !== 201) {
@@ -116,16 +115,20 @@ export const TripsProvider = (props) => {
         }
         const savedTrip = await response.json();
         console.log("got data", savedTrip);
+
+        savedTrip.place = fullPlace;
         setTrips([...trips, savedTrip]);
-        // addToast(`Saved ${savedTrip.title}`, {
-        //   appearance: "success",
-        // });
+        showMessage({
+          type: "success",
+          message: `Added ${savedTrip.place.name.common}`,
+        });
       } catch (err) {
         console.log(err);
         setState(err);
-        // addToast(`Error ${err.message || err.statusText}`, {
-        //   appearance: "error",
-        // });
+        showMessage({
+          type: "error",
+          message: `Error: Failed to add trip to ${fullPlace.name.common}`,
+        });
       }
     },
     [accessToken, /*addToast,*/ setLoading, setTrips, state]

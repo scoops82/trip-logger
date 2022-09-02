@@ -1,4 +1,5 @@
 import Trip from "../models/trip.model.js";
+import User from "../models/user.model.js";
 // const { errorHandler } = require("./utils");
 // const logger = require("./../logger");
 
@@ -22,18 +23,19 @@ export function getTrips(req, res) {
     });
 }
 
-export function getOwnTrips(req, res) {
+export function getUsersTrips(req, res) {
+  console.log(req.user);
   let query = {
-    customerID: req.user.sub, // ensure own trips only
+    sub: req.user.sub, // ensure own trips only
   };
 
   if (req.params.id) {
     query._id = req.params.id;
   }
   Trip.find(query)
-    // .populate("items")
+    .populate("place")
     .exec((err, trips) => {
-      if (err) return errorHandler(res, err);
+      if (err) return errorHandler(res, new Error("No user provided"));
       if (req.params.id && trips.length === 0)
         return res.status(404).send({ message: "No trip with that ID" });
       return res.status(200).json(trips);
@@ -50,12 +52,38 @@ export function addTrip(req, res) {
   });
 }
 
-export function addOwnTrip(req, res) {
-  // { items: [{}, {}], customerID: '23k42lj34278' }
-  const tripData = { ...req.body, customerID: req.user.sub };
-  console.log(`tripData ${tripData}`);
-  const newTrip = new Trip(tripData);
-  newTrip.save((err, trip) => {
+export async function addOwnTrip(req, res) {
+  console.log("req.user", req.user);
+  if (!req.user) return errorHandler(res, "No user provided");
+  const Auth0ID = req.user.sub;
+  console.log(
+    "🚀 ~ file: trips.controller.js ~ line 59 ~ addOwnTrip ~ Auth0ID",
+    Auth0ID
+  );
+
+  let user = await User.findOne({ sub: Auth0ID });
+  console.log(
+    "🚀 ~ file: trips.controller.js ~ line 62 ~ addOwnTrip ~ user",
+    user
+  );
+
+  if (!user) {
+    console.log("creating user");
+    user = await User.create({ sub: Auth0ID });
+  }
+
+  const trip = await Trip.create({
+    user: user._id,
+    ...req.body,
+  });
+  console.log(
+    "🚀 ~ file: trips.controller.js ~ line 73 ~ addOwnTrip ~ trip",
+    trip
+  );
+
+  user.trips.push(trip._id);
+
+  user.save((err) => {
     if (err) return errorHandler(res, err);
     return res.status(201).json(trip);
   });

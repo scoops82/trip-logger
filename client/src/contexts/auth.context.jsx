@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const domain = window.location.host;
 
 export const AuthContext = createContext({
-  token: null,
+  accessToken: null,
   user: null,
   error: null,
   isAuthenticated: false,

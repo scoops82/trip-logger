@@ -10,7 +10,7 @@ const options = {};
 try {
   await mongoose.connect(MONGODB_URI, options);
 } catch (error) {
-  handleError(error);
+  console.log("dbconerr", error);
 }
 
 mongoose.connection.on("error", (err) => {
