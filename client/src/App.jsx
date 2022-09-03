@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/system";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Auth0Provider } from "@auth0/auth0-react";
+import Auth0Wrapper from "./components/Auth0Wrapper";
 
 import theme from "./theme";
 
@@ -52,53 +53,55 @@ function App() {
     <>
       <Router>
         <Auth0Provider {...providerConfig}>
-          <UIProvider>
-            <AuthProvider>
-              <PlacesProvider>
-                <UsersProvider>
-                  <TripsProvider>
-                    <CssBaseline />
-                    <ThemeProvider theme={theme}>
-                      {/* <CarsProvider> */}
-                      <Routes>
-                        <Route path="/" element={<PageLayout />}>
-                          <Route index element={<Home />} />
-                          <Route
-                            path="profile"
-                            element={
-                              <ProtectedRoute>
-                                <Profile />
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="/trips"
-                            element={
-                              <ProtectedRoute>
-                                <Trips />
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="/trips/add"
-                            element={
-                              <ProtectedRoute>
-                                <AddTrip />
-                              </ProtectedRoute>
-                            }
-                          />
-                          {/* <Route path="add" element={<AddCar />} />
+          <Auth0Wrapper>
+            <UIProvider>
+              <AuthProvider>
+                <PlacesProvider>
+                  <UsersProvider>
+                    <TripsProvider>
+                      <CssBaseline />
+                      <ThemeProvider theme={theme}>
+                        {/* <CarsProvider> */}
+                        <Routes>
+                          <Route path="/" element={<PageLayout />}>
+                            <Route index element={<Home />} />
+                            <Route
+                              path="profile"
+                              element={
+                                <ProtectedRoute>
+                                  <Profile />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/trips"
+                              element={
+                                <ProtectedRoute>
+                                  <Trips />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/trips/add"
+                              element={
+                                <ProtectedRoute>
+                                  <AddTrip />
+                                </ProtectedRoute>
+                              }
+                            />
+                            {/* <Route path="add" element={<AddCar />} />
               <Route path="update/:id" element={<UpdateCar />} /> */}
-                          <Route path="*" element={<NotFound />} />
-                        </Route>
-                      </Routes>
-                      {/* </CarsProvider> */}
-                    </ThemeProvider>
-                  </TripsProvider>
-                </UsersProvider>
-              </PlacesProvider>
-            </AuthProvider>
-          </UIProvider>
+                            <Route path="*" element={<NotFound />} />
+                          </Route>
+                        </Routes>
+                        {/* </CarsProvider> */}
+                      </ThemeProvider>
+                    </TripsProvider>
+                  </UsersProvider>
+                </PlacesProvider>
+              </AuthProvider>
+            </UIProvider>
+          </Auth0Wrapper>
         </Auth0Provider>
       </Router>
     </>
