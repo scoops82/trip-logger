@@ -1,4 +1,10 @@
-import React, { createContext, useState, useCallback, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import { AuthContext } from "./auth.context";
 // import { useToasts } from "react-toast-notifications";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -231,6 +237,10 @@ export const PlacesProvider = (props) => {
     },
     [accessToken, /*addToast,*/ setError, setLoading, setPlaces, state]
   );
+
+  useEffect(() => {
+    fetchPlaces();
+  }, []);
 
   return (
     <PlacesContext.Provider

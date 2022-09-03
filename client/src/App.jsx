@@ -27,6 +27,7 @@ import { TripsProvider } from "./contexts/trips.context";
 // Auth0 Settings
 import history from "./utils/history";
 import { getConfig } from "./config";
+import { UIProvider } from "./contexts/ui.context";
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -51,51 +52,53 @@ function App() {
     <>
       <Router>
         <Auth0Provider {...providerConfig}>
-          <AuthProvider>
-            <PlacesProvider>
-              <UsersProvider>
-                <TripsProvider>
-                  <CssBaseline />
-                  <ThemeProvider theme={theme}>
-                    {/* <CarsProvider> */}
-                    <Routes>
-                      <Route path="/" element={<PageLayout />}>
-                        <Route index element={<Home />} />
-                        <Route
-                          path="profile"
-                          element={
-                            <ProtectedRoute>
-                              <Profile />
-                            </ProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/trips"
-                          element={
-                            <ProtectedRoute>
-                              <Trips />
-                            </ProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/trips/add"
-                          element={
-                            <ProtectedRoute>
-                              <AddTrip />
-                            </ProtectedRoute>
-                          }
-                        />
-                        {/* <Route path="add" element={<AddCar />} />
+          <UIProvider>
+            <AuthProvider>
+              <PlacesProvider>
+                <UsersProvider>
+                  <TripsProvider>
+                    <CssBaseline />
+                    <ThemeProvider theme={theme}>
+                      {/* <CarsProvider> */}
+                      <Routes>
+                        <Route path="/" element={<PageLayout />}>
+                          <Route index element={<Home />} />
+                          <Route
+                            path="profile"
+                            element={
+                              <ProtectedRoute>
+                                <Profile />
+                              </ProtectedRoute>
+                            }
+                          />
+                          <Route
+                            path="/trips"
+                            element={
+                              <ProtectedRoute>
+                                <Trips />
+                              </ProtectedRoute>
+                            }
+                          />
+                          <Route
+                            path="/trips/add"
+                            element={
+                              <ProtectedRoute>
+                                <AddTrip />
+                              </ProtectedRoute>
+                            }
+                          />
+                          {/* <Route path="add" element={<AddCar />} />
               <Route path="update/:id" element={<UpdateCar />} /> */}
-                        <Route path="*" element={<NotFound />} />
-                      </Route>
-                    </Routes>
-                    {/* </CarsProvider> */}
-                  </ThemeProvider>
-                </TripsProvider>
-              </UsersProvider>
-            </PlacesProvider>
-          </AuthProvider>
+                          <Route path="*" element={<NotFound />} />
+                        </Route>
+                      </Routes>
+                      {/* </CarsProvider> */}
+                    </ThemeProvider>
+                  </TripsProvider>
+                </UsersProvider>
+              </PlacesProvider>
+            </AuthProvider>
+          </UIProvider>
         </Auth0Provider>
       </Router>
     </>

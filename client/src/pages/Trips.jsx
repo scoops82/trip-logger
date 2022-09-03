@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 import { AuthContext } from "./../contexts/auth.context.jsx";
 import { TripsContext } from "./../contexts/trips.context.jsx";
 
@@ -8,7 +10,6 @@ function Trips() {
     useContext(TripsContext);
 
   useEffect(() => {
-    console.log("HERRERERERE", { trips, loaded, loading });
     if (!loaded && !loading) {
       console.log("fetching");
       fetchTrips();
@@ -18,7 +19,13 @@ function Trips() {
   return (
     <div>
       <h1>Trips</h1>
-      <p>{accessToken}</p>
+      <Button
+        sx={{ my: 2, color: "white", display: "block" }}
+        component={Link}
+        to="/trips/add"
+      >
+        Add a Trip!
+      </Button>
 
       {trips?.length === 0 && <p>No trips listed</p>}
       <ul>

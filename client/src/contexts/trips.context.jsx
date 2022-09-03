@@ -1,10 +1,11 @@
 import React, { createContext, useState, useCallback, useContext } from "react";
+import { UIContext } from "./ui.context";
 import { AuthContext } from "./auth.context";
-// import { useToasts } from "react-toast-notifications";
-import { useAuth0 } from "@auth0/auth0-react";
+import { PlacesContext } from "./places.context";
 
 let headers = {
   "Content-Type": "application/json",
+  "X-Requested-With": "XMLHttpRequest",
   // 'Content-Type': 'application/x-www-form-urlencoded',
 };
 
@@ -21,7 +22,9 @@ export const TripsContext = createContext({
 
 export const TripsProvider = (props) => {
   const { accessToken } = useContext(AuthContext);
-
+  const { showMessage } = useContext(UIContext);
+  const { places } = useContext(PlacesContext);
+  console.log("places", places);
   const [state, setState] = useState({
     loading: false,
     loaded: false,
